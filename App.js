@@ -16,7 +16,7 @@ export default function App() {
         initialRouteName="PictureList"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Login" component={LoginScreen} />
+        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
         <Stack.Screen
           screenOptions={{ headerShown: false }}
           name="MainContainer"

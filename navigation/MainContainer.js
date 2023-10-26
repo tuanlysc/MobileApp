@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AccountScreen from "../navigation/screens/AccountScreen";
 import HomeScreen from "./screens/HomeScreen";
 import CartScreen from "./screens/CartScreen";
-import ProductsScreen from "./screens/ProductsScreen";
+import FavouriteScreen from "./screens/FavouriteScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,10 +24,8 @@ function MainContainer({ navigation }) {
             iconName = focused ? "account-cog" : "account-cog-outline";
           } else if (rn === "Cart") {
             iconName = focused ? "cart" : "cart-outline";
-          } else if (rn === "Products") {
-            iconName = focused
-              ? "format-list-bulleted"
-              : "format-list-checkbox";
+          } else if (rn === "Favourite") {
+            iconName = focused ? "cards-heart" : "cards-heart-outline";
           }
 
           return (
@@ -42,8 +40,8 @@ function MainContainer({ navigation }) {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Products" component={ProductsScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
+      <Tab.Screen name="Favourite" component={FavouriteScreen} />
       <Tab.Screen name="Account" component={AccountScreen} />
     </Tab.Navigator>
   );
