@@ -10,9 +10,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import PictureList from "./PictureList";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const SearchBar = () => {
   const [searchText, setSearchText] = useState("");
@@ -49,8 +49,11 @@ const Banner = () => {
   );
 };
 
-const FlatListProducts = () => {
+const FlatListProducts = ({ navigation }) => {
   const [favorites, setFavorites] = useState([]);
+  const navigateToDetailScreen = (item) => {
+    navigation.navigate("DetailScreen", { item });
+  };
 
   const toggleFavorite = (name) => {
     if (favorites.includes(name)) {
@@ -65,75 +68,81 @@ const FlatListProducts = () => {
         data={[
           {
             name: "Luffy Gear5",
-            source: require("../img/luffy-gear5.jpg"),
+            source: require("../img/onepiece/luffy-gear5.jpg"),
             price: 300000,
           },
           {
             name: "Naruto Hiền Nhân",
-            source: require("../img/naruto-hiennhan.jpg"),
+            source: require("../img/naruto/naruto-hiennhan.jpg"),
             price: 400000,
           },
           {
             name: "Rengoku",
-            source: require("../img/rengoku.jpg"),
+            source: require("../img/kimetsunoyaiba/rengoku.jpg"),
             price: 500000,
           },
           {
             name: "SonGoku SuperSaiyan",
-            source: require("../img/fig417-super-saiyan-son-goku-yardrat-2.jpg"),
+            source: require("../img/dragonball/fig417-super-saiyan-son-goku-yardrat-2_removepics.png"),
             price: 600000,
           },
           {
             name: "Itadori Yuji",
-            source: require("../img/fig076-yuji-itadori-1.jpg"),
+            source: require("../img/jujutsukaisen/fig076-yuji-itadori-1.jpg"),
             price: 600000,
           },
           {
             name: "Tomioka",
-            source: require("../img/fig792-tomioka-giyuu-breath-of-water.jpg"),
+            source: require("../img/kimetsunoyaiba/fig792-tomioka-giyuu-breath-of-water.jpg"),
             price: 600000,
           },
           {
-            name: "Tomioka",
-            source: require("../img/fig792-tomioka-giyuu-breath-of-water.jpg"),
-            price: 600000,
+            name: "Zoro",
+            source: require("../img/onepiece/fig748-roronoa-zoro-kimono-trang-3-dau-6-tay-1_removepics.png"),
+            price: 700000,
           },
           {
-            name: "Tomioka",
-            source: require("../img/fig792-tomioka-giyuu-breath-of-water.jpg"),
-            price: 600000,
+            name: "Sabo",
+            source: require("../img/onepiece/fig655-sabo-chong-tay-lua-2-1.jpg"),
+            price: 680000,
           },
         ]}
         scrollEnabled={false}
         numColumns={2}
         renderItem={({ item }) => (
-          <View style={styles.items}>
-            <View style={styles.imageContainer}>
-              <Image
-                source={item.source}
-                style={styles.imageStyle}
-                resizeMode="cover"
-              />
-              <TouchableOpacity
-                style={styles.favoriteIcon}
-                onPress={() => toggleFavorite(item.name)}
-              >
-                <FontAwesome
-                  name={favorites.includes(item.name) ? "heart" : "heart-o"}
-                  size={24}
-                  color={favorites.includes(item.name) ? "red" : "black"}
+          <TouchableOpacity
+            onPress={() => navigateToDetailScreen(item, navigation)}
+          >
+            <View style={styles.items}>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={item.source}
+                  style={styles.imageStyle}
+                  resizeMode="cover"
                 />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.favoriteIcon}
+                  onPress={() => toggleFavorite(item.name)}
+                >
+                  <FontAwesome
+                    name={favorites.includes(item.name) ? "heart" : "heart-o"}
+                    size={24}
+                    color={favorites.includes(item.name) ? "red" : "black"}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.dess}>
+                <Text numberOfLines={2} style={styles.textName}>
+                  {item.name}
+                </Text>
+                <Text style={styles.textPrice}>
+                  {item.price.toLocaleString()}
+                  <Text> đ</Text>
+                </Text>
+              </View>
             </View>
-            <View style={styles.dess}>
-              <Text numberOfLines={2} style={styles.textName}>
-                {item.name}
-              </Text>
-              <Text style={styles.textPrice}>
-                {item.price.toLocaleString()} <sup>đ</sup>
-              </Text>
-            </View>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -186,14 +195,15 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   flatList: {
+    flexWrap: "wrap",
     flexDirection: "row",
     paddingTop: 120,
-    minWidth: 393,
+    // minWidth: 393,
   },
   items: {
     marginBottom: 10,
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
   },
 
   imageStyle: {
@@ -217,12 +227,14 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "relative",
+    // paddingRight: 20,
+    paddingLeft: 15,
   },
 
   favoriteIcon: {
     position: "absolute",
     top: 5,
-    right: 5,
+    right: 20,
     zIndex: 1,
   },
 });
@@ -234,7 +246,7 @@ export default function HomeScreen({ navigation }) {
         <SearchBar></SearchBar>
         <Notification></Notification>
         <Banner></Banner>
-        <FlatListProducts></FlatListProducts>
+        <FlatListProducts navigation={navigation}></FlatListProducts>
       </ScrollView>
     </View>
   );

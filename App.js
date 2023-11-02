@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginScreen from "./view/Login";
 import HomeScreen from "./navigation/screens/HomeScreen";
 import MainContainer from "./navigation/MainContainer";
-import PictureList from "./navigation/screens/PictureList";
+import DetailScreen from "./navigation/screens/DetailScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,8 +13,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="PictureList"
         screenOptions={{ headerShown: false }}
+        initialRouteName="Home"
       >
         {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
         <Stack.Screen
@@ -22,7 +22,7 @@ export default function App() {
           name="MainContainer"
           component={MainContainer}
         />
-        {/* <Stack.Screen name="PictureList" component={PictureList} /> */}
+        <Stack.Screen name="DetailScreen" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -11,6 +11,11 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import connect from "../src/config/db";
+
+// const db = require("../src/config/db");
+// db.connect();
+
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,18 +31,19 @@ const LoginScreen = ({ navigation }) => {
   // const navigation = useNavigation();
   const handleLogin = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/users/?username=${username}&password=${password}`
-      );
-      console.log(response.data[0]);
-      if (response.status === 200) {
-        // Đăng nhập thành công
-        console.log("Đăng nhập thành công");
-        navigation.navigate("MainContainer");
-      } else {
-        // Đăng nhập thất bại
-        console.log("Đăng nhập thất bại");
-      }
+      // const response = await axios.get(
+      //   `mongodb://localhost:27017/user/?username=${username}&password=${password}`
+      // );
+      connect();
+      // console.log(response.data[0]);
+      // if (response.status === 200) {
+      //   // Đăng nhập thành công
+      //   console.log("Đăng nhập thành công");
+      //   navigation.navigate("MainContainer");
+      // } else {
+      //   // Đăng nhập thất bại
+      //   console.log("Đăng nhập thất bại");
+      // }
     } catch (error) {
       console.error("Error logging in:", error);
     }
@@ -84,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
         <FontAwesome name="arrow-right" size={20} color="white" />
       </TouchableOpacity>
 
-      <View style={{ display: "block" }}>
+      <View style={{ flexDirection: "row", paddingTop: 12 }}>
         <Text>Don't have a account?</Text>
         <TouchableOpacity style={styles.signUpBtn}>
           <Text style={styles.signUpText}>SignUp</Text>
@@ -109,7 +115,7 @@ const styles = StyleSheet.create({
     margin: 30,
   },
   inputView: {
-    display: "inline-block",
+    flexDirection: "row",
     backgroundColor: "#FFC0CB",
     borderRadius: 30,
     width: "70%",
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon: {
-    padding: 12,
+    paddingLeft: 12,
   },
   TextInput: {
     height: 46,
@@ -141,8 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   signUpBtn: {
-    display: "inline-block",
-    paddingTop: 16,
+    alignItems: "center",
   },
   signUpText: {
     color: "pink",
