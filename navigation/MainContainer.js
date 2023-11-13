@@ -6,7 +6,6 @@ import AccountScreen from "../navigation/screens/AccountScreen";
 import HomeScreen from "./screens/HomeScreen";
 import CartScreen from "./screens/CartScreen";
 import FavouriteScreen from "./screens/FavouriteScreen";
-
 const Tab = createBottomTabNavigator();
 
 function MainContainer({ navigation }) {
@@ -39,6 +38,7 @@ function MainContainer({ navigation }) {
         headerShown: false,
       })}
     >
+      {/* <Tab.Screen name="Home" component={HomeScreen} /> */}
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="Favourite" component={FavouriteScreen} />

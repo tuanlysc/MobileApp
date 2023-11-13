@@ -3,9 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LoginScreen from "./view/Login";
-import HomeScreen from "./navigation/screens/HomeScreen";
 import MainContainer from "./navigation/MainContainer";
 import DetailScreen from "./navigation/screens/DetailScreen";
+import SignUpScreen from "./view/SignUp";
+import "react-native-get-random-values";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,9 +15,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="Home"
+        initialRouteName="Login"
       >
-        {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           screenOptions={{ headerShown: false }}
           name="MainContainer"

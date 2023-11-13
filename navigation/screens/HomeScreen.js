@@ -43,7 +43,7 @@ const Banner = () => {
     <View style={styles.bannerContainer}>
       <Image
         style={styles.bannerImage}
-        source={require("../img/banner_home.webp")} // thay thế path_to_your_banner_image.jpg bằng đường dẫn tới hình ảnh của bạn
+        source={require("../img/banner_home.webp")}
       />
     </View>
   );
@@ -70,41 +70,49 @@ const FlatListProducts = ({ navigation }) => {
             name: "Luffy Gear5",
             source: require("../img/onepiece/luffy-gear5.jpg"),
             price: 300000,
+            rate: 4,
           },
           {
             name: "Naruto Hiền Nhân",
             source: require("../img/naruto/naruto-hiennhan.jpg"),
             price: 400000,
+            rate: 4,
           },
           {
             name: "Rengoku",
             source: require("../img/kimetsunoyaiba/rengoku.jpg"),
             price: 500000,
+            rate: 4,
           },
           {
             name: "SonGoku SuperSaiyan",
             source: require("../img/dragonball/fig417-super-saiyan-son-goku-yardrat-2_removepics.png"),
             price: 600000,
+            rate: 4,
           },
           {
             name: "Itadori Yuji",
             source: require("../img/jujutsukaisen/fig076-yuji-itadori-1.jpg"),
             price: 600000,
+            rate: 4,
           },
           {
             name: "Tomioka",
             source: require("../img/kimetsunoyaiba/fig792-tomioka-giyuu-breath-of-water.jpg"),
             price: 600000,
+            rate: 4,
           },
           {
             name: "Zoro",
             source: require("../img/onepiece/fig748-roronoa-zoro-kimono-trang-3-dau-6-tay-1_removepics.png"),
             price: 700000,
+            rate: 4,
           },
           {
             name: "Sabo",
             source: require("../img/onepiece/fig655-sabo-chong-tay-lua-2-1.jpg"),
             price: 680000,
+            rate: 4,
           },
         ]}
         scrollEnabled={false}
@@ -227,8 +235,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: "relative",
-    // paddingRight: 20,
-    paddingLeft: 15,
+    paddingLeft: 20,
   },
 
   favoriteIcon: {

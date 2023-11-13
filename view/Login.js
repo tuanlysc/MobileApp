@@ -6,58 +6,74 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import connect from "../src/config/db";
-
-// const db = require("../src/config/db");
-// db.connect();
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // State để theo dõi trạng thái hiển thị mật khẩu
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = () => {
-    // Hàm này sẽ được gọi khi click vào icon "eye"
     setShowPassword(!showPassword);
   };
 
   // const navigation = useNavigation();
   const handleLogin = async () => {
+    // if (!username || !password) {
+    //   Alert.alert("Lỗi", "Vui lòng nhập tên đăng nhập và mật khẩu");
+    //   return;
+    // }
     try {
-      // const response = await axios.get(
-      //   `mongodb://localhost:27017/user/?username=${username}&password=${password}`
-      // );
-      connect();
-      // console.log(response.data[0]);
-      // if (response.status === 200) {
-      //   // Đăng nhập thành công
-      //   console.log("Đăng nhập thành công");
-      //   navigation.navigate("MainContainer");
-      // } else {
-      //   // Đăng nhập thất bại
-      //   console.log("Đăng nhập thất bại");
-      // }
+      const response = await axios.get(`http://192.168.1.6:3000/users`);
+      const user = response.data.find(
+        (user) => user.username === username && user.password === password
+      );
+      console.log(typeof user);
+      if (user) {
+        // Đăng nhập thành công
+        Alert.alert("Đăng nhập thành công", "", [
+          {
+            text: "Tiếp tục",
+            onPress: () => {
+              navigation.navigate("MainContainer");
+            },
+          },
+        ]);
+      } else {
+        // Đăng nhập thất bại
+        Alert.alert("Sai tên đăng nhập hoặc mật khẩu !");
+      }
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error("Lỗi khi đăng nhập:", error);
+      if (error.response) {
+        console.error("Máy chủ phản hồi:", error.response.data);
+        console.error("Mã trạng thái:", error.response.status);
+      } else if (error.request) {
+        console.error("Không nhận được phản hồi");
+      } else {
+        console.error("Lỗi khi thiết lập yêu cầu:", error.message);
+      }
     }
+  };
+
+  const navigateToSignUp = () => {
+    navigation.navigate("SignUpScreen");
   };
 
   return (
     <View style={styles.container}>
+      <Text style={styles.headerText}>Đăng nhập vào TwoRab</Text>
       <Image style={styles.image} source={require("../assets/logo3.png")} />
-      <StatusBar style="auto" />
       <View style={styles.inputView}>
         <FontAwesome style={styles.icon} name="user" size={20} color="black" />
         <TextInput
           style={styles.TextInput}
-          placeholder="Username"
+          placeholder="Tên đăng nhập"
           placeholderTextColor="#003f5c"
           onChangeText={(username) => setUsername(username)}
         />
@@ -66,7 +82,7 @@ const LoginScreen = ({ navigation }) => {
         <FontAwesome5 style={styles.icon} name="key" size={20} color="black" />
         <TextInput
           style={styles.TextInput}
-          placeholder="Password"
+          placeholder="Mật khẩu"
           placeholderTextColor="#003f5c"
           secureTextEntry={!showPassword}
           onChangeText={(password) => setPassword(password)}
@@ -81,19 +97,32 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
       <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
+        <Text style={styles.forgot_button}>Quên mật khẩu?</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
         <Text style={{ fontWeight: "bold", color: "white", paddingRight: 12 }}>
-          LOGIN
+          Đăng nhập
         </Text>
         <FontAwesome name="arrow-right" size={20} color="white" />
       </TouchableOpacity>
-
       <View style={{ flexDirection: "row", paddingTop: 12 }}>
-        <Text>Don't have a account?</Text>
-        <TouchableOpacity style={styles.signUpBtn}>
-          <Text style={styles.signUpText}>SignUp</Text>
+        <Text>Bạn chưa có tài khoản?</Text>
+        <TouchableOpacity style={styles.signUpBtn} onPress={navigateToSignUp}>
+          <Text style={styles.signUpText}>Đăng ký</Text>
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Text style={styles.orCenter}>Hoặc</Text>
+      </View>
+      <View style={styles.iconView}>
+        <TouchableOpacity style={styles.iconNic}>
+          <FontAwesome name="facebook-square" size={45} color="blue" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconNic}>
+          <FontAwesome name="google-plus-square" size={45} color="tomato" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconNic}>
+          <FontAwesome name="apple" size={45} color="black" />
         </TouchableOpacity>
       </View>
     </View>
@@ -107,8 +136,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  headerText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   image: {
-    marginBottom: 40,
+    marginBottom: 30,
     width: "50%",
     height: 100,
     resizeMode: "contain",
@@ -126,6 +159,11 @@ const styles = StyleSheet.create({
   icon: {
     paddingLeft: 12,
   },
+  orCenter: {
+    paddingBottom: 20,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
   TextInput: {
     height: 46,
     width: "65%",
@@ -133,7 +171,6 @@ const styles = StyleSheet.create({
   },
   forgot_button: {
     height: 30,
-    marginBottom: 30,
     fontWeight: "bold",
   },
   loginBtn: {
@@ -142,9 +179,10 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 30,
     backgroundColor: "#FF1493",
     flexDirection: "row",
+    marginBottom: 20,
   },
   signUpBtn: {
     alignItems: "center",
@@ -152,6 +190,15 @@ const styles = StyleSheet.create({
   signUpText: {
     color: "pink",
     paddingLeft: 12,
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  iconView: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  iconNic: {
+    padding: 12,
   },
 });
 
