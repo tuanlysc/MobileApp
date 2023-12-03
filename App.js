@@ -6,26 +6,28 @@ import LoginScreen from "./view/Login";
 import MainContainer from "./navigation/MainContainer";
 import DetailScreen from "./navigation/screens/DetailScreen";
 import SignUpScreen from "./view/SignUp";
+import ProfileScreen from "./navigation/screens/ProfileScreen";
 import "react-native-get-random-values";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Login"
-      >
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen
-          screenOptions={{ headerShown: false }}
-          name="MainContainer"
-          component={MainContainer}
-        />
-        <Stack.Screen name="DetailScreen" component={DetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <Stack.Navigator
+    //     screenOptions={{ headerShown: false }}
+    //     initialRouteName="Login"
+    //   >
+    //     <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+    //     <Stack.Screen name="Login" component={LoginScreen} />
+    //     <Stack.Screen
+    //       screenOptions={{ headerShown: false }}
+    //       name="MainContainer"
+    //       component={MainContainer}
+    //     />
+    //     <Stack.Screen name="DetailScreen" component={DetailScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <ProfileScreen></ProfileScreen>
   );
 }
